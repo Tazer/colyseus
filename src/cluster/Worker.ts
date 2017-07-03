@@ -137,6 +137,7 @@ export function setupWorker (server: net.Server, matchMaker: MatchMaker) {
         // send response back to match-making process.
         getMatchMakingProcess(matchMakingPid => {
           console.log("process", process.pid, "is responding to JOIN_ROOM");
+          console.log("sending response", joinRoomResponse);
           process.send([matchMakingPid, joinOptions.clientId, joinRoomResponse]);
         });
       });
