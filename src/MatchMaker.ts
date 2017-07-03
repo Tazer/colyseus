@@ -90,11 +90,12 @@ export class MatchMaker {
     let err: string;
 
     // assign sessionId to socket connection.
-    if (client && clientOptions)
+    if (client && clientOptions) {
       client.sessionId = clientOptions.sessionId;
 
-    delete clientOptions.sessionId;
-    delete clientOptions.clientId;
+      delete clientOptions.sessionId;
+      delete clientOptions.clientId;
+    }
 
     try {
       (<any>room)._onJoin(client, clientOptions);
