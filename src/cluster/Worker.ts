@@ -131,7 +131,7 @@ export function setupWorker (server: net.Server, matchMaker: MatchMaker) {
           joinRoomResponse = [ Protocol.JOIN_ERROR, roomNameOrId, err ];
 
         } else {
-          joinRoomResponse = [ Protocol.JOIN_ROOM, room.roomId ];
+          joinRoomResponse = [ Protocol.JOIN_ROOM, room.roomId , joinOptions ];
         }
 
         // send response back to match-making process.
