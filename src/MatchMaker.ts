@@ -90,7 +90,8 @@ export class MatchMaker {
     let err: string;
 
     // assign sessionId to socket connection.
-    client.sessionId = clientOptions.sessionId;
+    if (client && clientOptions)
+      client.sessionId = clientOptions.sessionId;
 
     delete clientOptions.sessionId;
     delete clientOptions.clientId;
