@@ -23,8 +23,8 @@ export class MatchMaker {
   protected connectingClientByRoom: { [roomId: string]: { [clientId: string]: any } } = {};
 
   public execute(client: Client, message: any) {
+    console.log('whats the message', message);
     if (message[0] == Protocol.JOIN_ROOM) {
-      console.log('whats the message', message);
       this.onJoinRoomRequest(message[1], message[2] || {}, false, (err: string, room: Room) => {
         if (err) {
           let roomId = (room) ? room.roomId : message[1];
