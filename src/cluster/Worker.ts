@@ -13,18 +13,18 @@ import { Client, Room, generateId } from "../";
 /**
  * Retrieve and/or set 'colyseusid' cookie.
  */
-export function setUserId (client: Client) {
+export function setUserId(client: Client) {
   let cookieStr = client.upgradeReq.headers.cookie as string || "";
   let clientCookies = cookie.parse(cookieStr);
 
   client.id = clientCookies['colyseusid'] || generateId();
 
   if (!clientCookies['colyseusid']) {
-    client.send( msgpack.encode([ Protocol.USER_ID, client.id ]), { binary: true } );
+    client.send(msgpack.encode([Protocol.USER_ID, client.id]), { binary: true });
   }
 }
 
-export function handleUpgrade (server: http.Server, socket: net.Socket, message: any) {
+export function handleUpgrade(server: http.Server, socket: net.Socket, message: any) {
   let code = message[0];
   let request: http.ServerRequest = message[1];
   let head: any = message[2];
@@ -40,7 +40,7 @@ export function handleUpgrade (server: http.Server, socket: net.Socket, message:
   socket.resume();
 }
 
-export function setupWorker (server: net.Server, matchMaker: MatchMaker) {
+export function setupWorker(server: net.Server, matchMaker: MatchMaker) {
   let wss = new WebSocketServer({ server: server as http.Server });
 
   // setInterval(() => console.log(`worker ${ process.pid } connections:`, wss.clients.length), 1000);
@@ -98,7 +98,7 @@ export function setupWorker (server: net.Server, matchMaker: MatchMaker) {
       // should we flush something here?
       // '_flush' method has been lost after redirecting the socket
       //
-      request._flush = function() {};
+      request._flush = function () { };
 
       // emit request to server
       socket.parser.onIncoming(request);
@@ -128,16 +128,16 @@ export function setupWorker (server: net.Server, matchMaker: MatchMaker) {
         let joinRoomResponse;
 
         if (err) {
-          joinRoomResponse = [ Protocol.JOIN_ERROR, roomNameOrId, err ];
+          joinRoomResponse = [Protocol.JOIN_ERROR, roomNameOrId, err];
 
         } else {
-          joinRoomResponse = [ Protocol.JOIN_ROOM, room.roomId , joinOptions ];
+          joinRoomResponse = [Protocol.JOIN_ROOM, room.roomId];
         }
 
         // send response back to match-making process.
         getMatchMakingProcess(matchMakingPid => {
           console.log("process", process.pid, "is responding to JOIN_ROOM");
-          process.send([matchMakingPid, joinOptions.clientId]);
+          process.send([matchMakingPid, joinOptions.clientId, joinRoomResponse]);
         });
       });
 
@@ -148,7 +148,7 @@ export function setupWorker (server: net.Server, matchMaker: MatchMaker) {
   return server;
 }
 
-function getMatchMakingProcess (callback: (matchMakingPid) => void) {
+function getMatchMakingProcess(callback: (matchMakingPid) => void) {
   memshared.get("matchmaking_process", (err, matchMakingPid) => {
     callback(matchMakingPid);
   });
