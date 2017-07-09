@@ -90,7 +90,7 @@ export class MatchMaker {
     let clientOptions = this.connectingClientByRoom[roomId][client.id];
     let err: string;
 
-    console.log('error', err, 'room', room, 'clientOptions', clientOptions, 'client.id', client.id);
+    console.log('error', err, 'room', roomId, 'clientid', client.id, 'clientOptions', clientOptions);
     console.log('array', this.connectingClientByRoom);
     // assign sessionId to socket connection.
     client.sessionId = clientOptions.sessionId;
